@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abish Raghav - Computer Applications Student</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <style>
+        /* Base font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom gradient for hero */
+        .hero-gradient {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+        }
+
+        /* Custom gradient for buttons and highlights */
+        .accent-gradient {
+            background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+        }
+        .accent-gradient-hover {
+            background: linear-gradient(90deg, #0284c7, #06b6d4);
+        }
+        .accent-text {
+            color: #22d3ee;
+        }
+        
+        /* Glassmorphism style for cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6); /* bg-slate-800 with 60% opacity */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5); /* border-slate-700 with 50% opacity */
+        }
+        
+        /* Styles for the AI Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 99;
+        }
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        /* Simple loading spinner */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #22d3ee; /* Cyan */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-gray-100 antialiased">
+
+    <!-- Header / Navigation Bar -->
+    <header class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 w-full border-b border-slate-700/50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo / Name -->
+                <a href="#" class="text-2xl font-bold accent-text">Abish Raghav</a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex md:items-center md:space-x-4">
+                    <a href="#about" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">About</a>
+                    <a href="#skills" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Skills</a>
+                    <a href="#projects" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Projects</a>
+                    <a href="#experience" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Experience</a>
+                    <a href="#contact" class="ml-4 px-4 py-2 rounded-md text-sm font-medium text-white accent-gradient hover:accent-gradient-hover shadow-lg transition-all transform hover:scale-105">
+                        Contact
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500">
+                        <span class="sr-only">Open main menu</span>
+                        <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu (Dropdown) -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">About</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Skills</a>
+                <a href="#projects" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Projects</a>
+                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Experience</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-slate-700 transition-colors">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-gradient pt-20 pb-32 md:pt-32 md:pb-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center justify-between">
+                <!-- Hero Text -->
+                <div class="md:w-1/2 mt-10 md:mt-0 text-center md:text-left">
+                    <h1 class="text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+                        Hi, I'm <span class="accent-text">Abish Raghav</span>
+                    </h1>
+                    <p class="mt-4 text-xl text-gray-300">
+                        Computer Applications Student
+                    </p>
+                    <p class="mt-6 max-w-lg text-lg text-gray-400">
+                        A passionate 3rd-year BCA student focused on building and designing user-friendly applications.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#contact" class="px-8 py-3 rounded-md text-lg font-medium text-white accent-gradient hover:accent-gradient-hover shadow-lg transition-all transform hover:scale-105">
+                            Get in Touch
+                        </a>
+                        <a href="#" id="resume-link" class="px-8 py-3 rounded-md text-lg font-medium text-gray-300 bg-slate-700 hover:bg-slate-600 shadow-lg transition-all transform hover:scale-105">
+                            View Resume
+                        </a>
+                    </div>
+                    <!-- Social Links -->
+                    <div class="mt-8 flex justify-center md:justify-start space-x-6">
+                        <a href="#" id="github-link" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="GitHub Profile">
+                            <i data-lucide="github" class="w-8 h-8"></i>
+                        </a>
+                        <a href="#" id="linkedin-link" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="LinkedIn Profile">
+                            <i data-lucide="linkedin" class="w-8 h-8"></i>
+                        </a>
+                        <a href="mailto:abishraghav7@gmail.com" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="Email">
+                            <i data-lucide="mail" class="w-8 h-8"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="md:w-1/3 flex justify-center">
+                    <div class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-2xl border-4 border-cyan-500/50">
+                        <!-- 
+                          IMPORTANT: Replace this placeholder! 
+                          Upload your photo to a service like Imgur (https://imgur.com/upload) 
+                          and paste the 'Direct Link' (it ends in .jpg or .png) into the src="" below.
+                        -->
+                        <img 
+                          id="profile-photo"
+                          class="w-full h-full object-cover object-center" 
+                          src="https://placehold.co/400x400/666/eee?text=Abish+R." 
+                          alt="Abish Raghav"
+                          onerror="this.onerror=null; this.src='https://placehold.co/400x400/666/eee?text=Abish+R.';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center sm:text-4xl">About <span class="accent-text">Me</span></h2>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+                    <!-- About Me Text -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-4">Who I Am</h3>
+                        <p class="text-lg text-gray-300 leading-relaxed mb-4">
+                            Hello! I'm Abish Raghav, a dedicated 3rd-year Bachelor of Computer Applications student at BVM College, Cherpunkal. I have a strong passion for technology and a drive to create software that solves real-world problems.
+                        </p>
+                        <p class="text-lg text-gray-300 leading-relaxed">
+                            My journey in computer science is fueled by curiosity and a love for learning. I'm currently honing my skills in application development, web technologies, and database management, always eager to take on new challenges and contribute to exciting projects.
+                        </p>
+                    </div>
+                    <!-- Soft Skills -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-white mb-6">My Strengths</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center glass-card p-4 rounded-lg">
+                                <i data-lucide="users" class="w-6 h-6 text-cyan-400 mr-4"></i>
+                                <span class="text-lg text-gray-200">Teamwork & Collaboration</span>
+                            </li>
+                            <li class="flex items-center glass-card p-4 rounded-lg">
+                                <i data-lucide="lightbulb" class="w-6 h-6 text-cyan-400 mr-4"></i>
+                                <span class="text-lg text-gray-200">Creative Problem-Solving</span>
+                            </li>
+                            <li class="flex items-center glass-card p-4 rounded-lg">
+                                <i data-lucide="message-square" class="w-6 h-6 text-cyan-400 mr-4"></i>
+                                <span class="text-lg text-gray-200">Clear Communication</span>
+                            </li>
+                            <li class="flex items-center glass-card p-4 rounded-lg">
+                                <i data-lucide="clipboard-check" class="w-6 h-6 text-cyan-400 mr-4"></i>
+                                <span class="text-lg text-gray-200">Project Management</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills Section -->
+        <section id="skills" class="py-24 bg-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center sm:text-4xl">Technical <span class="accent-text">Skills</span></h2>
+                <p class="mt-4 text-lg text-gray-400 text-center max-w-2xl mx-auto">
+                    These are the technologies I work with.
+                    <strong class="text-cyan-300">Please edit this section</strong> to reflect your actual skills!
+                </p>
+                <div id="skills-list" class="mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    <!-- Add/Remove skills as needed -->
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="java" class="w-12 h-12 text-cyan-400 mb-3"><!-- Custom Icon or text if lucide fails --></i>
+                        <span class="text-lg font-medium text-white">Java</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="python" class="w-12 h-12 text-cyan-400 mb-3"><!-- Custom Icon --></i>
+                        <span class="text-lg font-medium text-white">Python</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="code" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">HTML5</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="paint-brush" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">CSS3</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="javascript" class="w-12 h-12 text-cyan-400 mb-3"><!-- Custom Icon --></i>
+                        <span class="text-lg font-medium text-white">JavaScript</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="react" class="w-12 h-12 text-cyan-400 mb-3"><!-- Custom Icon --></i>
+                        <span class="text-lg font-medium text-white">React</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="smartphone" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">Flutter</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="database" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">SQL</span>
+    
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="git-branch" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">Git</span>
+                    </div>
+                    <div class="flex flex-col items-center justify-center bg-slate-700/50 p-6 rounded-lg shadow-lg hover:bg-slate-700 transition-all transform hover:-translate-y-1">
+                        <i data-lucide="figma" class="w-12 h-12 text-cyan-400 mb-3"></i>
+                        <span class="text-lg font-medium text-white">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-24 bg-slate-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center sm:text-4xl">My <span class="accent-text">Projects</span></h2>
+                <p class="mt-4 text-lg text-gray-400 text-center max-w-2xl mx-auto">
+                    Here are a few projects I've worked on.
+                    <strong class="text-cyan-300">Please update these</strong> with your real project details.
+                </p>
+                <div id="projects-list" class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <!-- Project 1: FitForge -->
+                    <div class="glass-card rounded-lg overflow-hidden shadow-xl transform transition-all hover:scale-105 duration-300">
+                        <img src="https://placehold.co/600x400/0ea5e9/white?text=FitForge" alt="FitForge Project" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-white mb-3">FitForge</h3>
+                            <p class="text-gray-300 mb-4">
+                                A mobile application for creating personalized workout plans and tracking fitness progress.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge">Flutter</span>
+                                <span class="skill-badge">Firebase</span>
+                                <span class="skill-badge">Dart</span>
+                            </div>
+                            <div class="flex flex-wrap gap-4 mt-6">
+                                <a href="#" class="project-link" aria-label="Live Demo of FitForge">
+                                    <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>
+                                    Live Demo
+                                </a>
+                                <a href="#" class="project-link" aria-label="Source Code for FitForge">
+                                    <i data-lucide="github" class="w-5 h-5 mr-2"></i>
+                                    View Code
+                                </a>
+                            </div>
+                            <!-- ✨ Gemini Feature Button -->
+                            <button class="gemini-trigger mt-6 w-full text-left px-4 py-2 rounded-md text-sm font-medium text-cyan-200 bg-slate-700 hover:bg-slate-600 transition-all">
+                                ✨ Ask AI About This Project
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2: TerraScope -->
+                    <div class="glass-card rounded-lg overflow-hidden shadow-xl transform transition-all hover:scale-105 duration-300">
+                        <img src="https://placehold.co/600x400/10b981/white?text=TerraScope" alt="TerraScope Project" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-white mb-3">TerraScope</h3>
+                            <p class="text-gray-300 mb-4">
+                                A web-based data visualization tool for analyzing environmental and geographical datasets.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge">React</span>
+                                <span class="skill-badge">D3.js</span>
+                                <span class="skill-badge">Node.js</span>
+                            </div>
+                            <div class="flex flex-wrap gap-4 mt-6">
+                                <a href="#" class="project-link" aria-label="Live Demo of TerraScope">
+                                    <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>
+                                    Live Demo
+                                </a>
+                                <a href="#" class="project-link" aria-label="Source Code for TerraScope">
+                                    <i data-lucide="github" class="w-5 h-5 mr-2"></i>
+                                    View Code
+                                </a>
+                            </div>
+                            <!-- ✨ Gemini Feature Button -->
+                            <button class="gemini-trigger mt-6 w-full text-left px-4 py-2 rounded-md text-sm font-medium text-cyan-200 bg-slate-700 hover:bg-slate-600 transition-all">
+                                ✨ Ask AI About This Project
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Medigo -->
+                    <div class="glass-card rounded-lg overflow-hidden shadow-xl transform transition-all hover:scale-105 duration-300">
+                        <img src="https://placehold.co/600x400/8b5cf6/white?text=Medigo" alt="Medigo Project" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-semibold text-white mb-3">Medigo</h3>
+                            <p class="text-gray-300 mb-4">
+                                A friendly interface for a medical database, allowing for easy patient record management and lookups.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge">Java</span>
+                                <span class="skill-badge">Spring Boot</span>
+                                <span class="skill-badge">MySQL</span>
+                            </div>
+                            <div class="flex flex-wrap gap-4 mt-6">
+                                <a href="#" class="project-link" aria-label="Live Demo of Medigo">
+                                    <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>
+                                    Live Demo
+                                </a>
+                                <a href="#" class="project-link" aria-label="Source Code for Medigo">
+                                    <i data-lucide="github" class="w-5 h-5 mr-2"></i>
+                                    View Code
+                                </a>
+                            </div>
+                            <!-- ✨ Gemini Feature Button -->
+                            <button class="gemini-trigger mt-6 w-full text-left px-4 py-2 rounded-md text-sm font-medium text-cyan-200 bg-slate-700 hover:bg-slate-600 transition-all">
+                                ✨ Ask AI About This Project
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Education Section -->
+        <section id="experience" class="py-24 bg-slate-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center sm:text-4xl">My <span class="accent-text">Journey</span></h2>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-10">
+                    
+                    <!-- Education Card -->
+                    <div class="glass-card p-8 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                            <i data-lucide="graduation-cap" class="w-8 h-8 text-cyan-400 mr-3"></i>
+                            Education
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-xl font-medium text-gray-100">Bachelor of Computer Applications (BCA)</h4>
+                                <p class="text-cyan-300 mt-1">BVM College, Cherpunkal (MG University)</p>
+                                <p class="text-gray-400 text-sm mt-1">Expected Graduation: 2026</p>
+                                <p class="text-gray-300 mt-2">
+                                    Currently in my 3rd year, focusing on core subjects like data structures, algorithms, web development, and database systems.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Card -->
+                    <div class="glass-card p-8 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                            <i data-lucide="briefcase" class="w-8 h-8 text-cyan-400 mr-3"></i>
+                            Experience
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-xl font-medium text-gray-100">Sales & Cashier (Part-Time)</h4>
+                                <p class="text-cyan-300 mt-1">Local Fancy Store</p>
+                                <p class="text-gray-400 text-sm mt-1">1 Year Experience</p>
+                                <ul class="list-disc list-inside text-gray-300 mt-2 space-y-1">
+                                    <li>Managed daily cash transactions and balanced registers.</li>
+                                    <li>Assisted customers with inquiries and sales.</li>
+                                    <li>Developed strong communication and problem-solving skills in a fast-paced environment.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-slate-900">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold sm:text-4xl">Get In <span class="accent-text">Touch</span></h2>
+                <p class="mt-4 text-lg text-gray-300">
+                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                </p>
+                <div class="mt-10">
+                    <a href="mailto:abishraghav7@gmail.com" class="inline-block px-10 py-4 rounded-lg text-xl font-medium text-white accent-gradient hover:accent-gradient-hover shadow-lg transition-all transform hover:scale-105">
+                        <i data-lucide="send" class="w-6 h-6 inline-block mr-2 -mt-1"></i>
+                        Say Hello
+                    </a>
+                </div>
+                <div class="mt-12 flex justify-center space-x-8">
+                    <a href="#" id="github-link-footer" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="GitHub Profile">
+                        <i data-lucide="github" class="w-9 h-9"></i>
+                    </a>
+                    <a href="#" id="linkedin-link-footer" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="LinkedIn Profile">
+                        <i data-lucide="linkedin" class="w-9 h-9"></i>
+                    </a>
+                    <a href="mailto:abishraghav7@gmail.com" class="text-gray-400 hover:text-cyan-400 transition-colors" aria-label="Email">
+                        <i data-lucide="mail" class="w-9 h-9"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-700/50">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">
+                &copy; 2025 Abish Raghav. Built from scratch with HTML & Tailwind CSS.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ✨ AI Modal -->
+    <div id="ai-modal-backdrop" class="modal-backdrop hidden"></div>
+    <div id="ai-modal" class="modal glass-card rounded-lg shadow-xl p-6 hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-2xl font-semibold text-white">✨ AI Project Insight</h3>
+            <button id="ai-modal-close" class="text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <div id="ai-modal-content">
+            <div id="ai-loading" class="loader"></div>
+            <p id="ai-response" class="text-gray-300 leading-relaxed"></p>
+        </div>
+    </div>
+
+    <!-- Custom CSS for dynamic elements -->
+    <style>
+        /* Re-usable project link style */
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500; /* font-medium */
+            color: #a5f3fc; /* text-cyan-200 */
+            transition: all 0.2s;
+        }
+        .project-link:hover {
+            color: #22d3ee; /* text-cyan-400 */
+            text-decoration: underline;
+        }
+    </style>
+
+    <!-- JavaScript for Mobile Menu and Lucide Icons -->
+    <script>
+        // Gemini API Configuration
+        const API_KEY = ""; // Keep this empty, it will be populated by the environment
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY}`;
+
+        const SYSTEM_PROMPT = "You are a helpful tech project analyst. A user wants to know more about a specific student project. Based on the project's details, provide a concise, 2-3 sentence insight into what a key technical challenge *might* be, or what someone could *learn* from building it. Keep the tone encouraging and informative. Do not use markdown.";
+
+        /**
+         * Calls the Gemini API with exponential backoff.
+         */
+        async function callGeminiAPI(prompt, systemPrompt, retries = 3, delay = 1000) {
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 429 && retries > 0) {
+                        // Exponential backoff
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return callGeminiAPI(prompt, systemPrompt, retries - 1, delay * 2);
+                    }
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    return "Sorry, I couldn't generate an insight for this project right now.";
+                }
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return callGeminiAPI(prompt, systemPrompt, retries - 1, delay * 2);
+                }
+                return "Sorry, there was an error connecting to the AI. Please try again later.";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Mobile Menu Toggle
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('menu-icon-open');
+            const iconClose = document.getElementById('menu-icon-close');
+
+            if (menuButton) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    iconOpen.classList.toggle('hidden');
+                    iconOpen.classList.toggle('block');
+                    iconClose.classList.toggle('hidden');
+                    iconClose.classList.toggle('block');
+                });
+            }
+
+            // Close mobile menu when a link is clicked
+            if (mobileMenu) {
+                const mobileLinks = mobileMenu.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        iconOpen.classList.remove('hidden');
+                        iconOpen.classList.add('block');
+                        iconClose.classList.add('hidden');
+                        iconClose.classList.remove('block');
+                    });
+                });
+            }
+
+            // Initialize Lucide Icons
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+                
+                // Lucide doesn't have icons for some tech, so we create text fallbacks
+                const iconMap = {
+                    'java': '<span style="font-weight:bold; font-size: 1.5em; color: #f89820;">J</span>',
+                    'python': '<span style="font-weight:bold; font-size: 1.5em; color: #3776AB;">Py</span>',
+                    'javascript': '<span style="font-weight:bold; font-size: 1.5em; color: #F7DF1E;">JS</span>',
+                    'react': '<span style="font-weight:bold; font-size: 1.5em; color: #61DAFB;">R</span>',
+                    'figma': '<span style="font-weight:bold; font-size: 1.5em; color: #F24E1E;">Fi</span>',
+                };
+
+                document.querySelectorAll('[data-lucide]').forEach(iconEl => {
+                    const iconName = iconEl.getAttribute('data-lucide');
+                    if (iconMap[iconName]) {
+                        // Replace the lucide element with our text fallback
+                        const fallback = document.createElement('div');
+                        fallback.innerHTML = iconMap[iconName];
+                        fallback.className = iconEl.className;
+                        fallback.style.width = '3rem'; // 48px
+                        fallback.style.height = '3rem'; // 48px
+                        fallback.style.display = 'flex';
+                        fallback.style.alignItems = 'center';
+                        fallback.style.justifyContent = 'center';
+                        fallback.style.marginBottom = '0.75rem'; // mb-3
+                        if (iconEl.parentNode) {
+                            iconEl.parentNode.replaceChild(fallback, iconEl);
+                        }
+                    }
+                });
+            } else {
+                console.error("Lucide icons script failed to load.");
+            }
+
+            // AI Modal Logic
+            const modalBackdrop = document.getElementById('ai-modal-backdrop');
+            const modal = document.getElementById('ai-modal');
+            const modalClose = document.getElementById('ai-modal-close');
+            const loadingSpinner = document.getElementById('ai-loading');
+            const responseText = document.getElementById('ai-response');
+            const triggerButtons = document.querySelectorAll('.gemini-trigger');
+
+            function showModal() {
+                if(modalBackdrop) modalBackdrop.classList.remove('hidden');
+                if(modal) modal.classList.remove('hidden');
+            }
+
+            function hideModal() {
+                if(modalBackdrop) modalBackdrop.classList.add('hidden');
+                if(modal) modal.classList.add('hidden');
+            }
+
+            triggerButtons.forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    // Show modal and loading spinner
+                    showModal();
+                    if(loadingSpinner) loadingSpinner.style.display = 'block';
+                    if(responseText) responseText.textContent = '';
+
+                    // Find the parent project card
+                    const card = e.target.closest('.glass-card');
+                    if (!card) return;
+                    
+                    // Extract project details
+                    const titleEl = card.querySelector('h3');
+                    const descriptionEl = card.querySelector('p');
+                    const skillsEls = card.querySelectorAll('.skill-badge');
+
+                    const title = titleEl ? titleEl.textContent : 'Unnamed Project';
+                    const description = descriptionEl ? descriptionEl.textContent : 'No description provided.';
+                    const skills = Array.from(skillsEls).map(badge => badge.textContent).join(', ');
+
+                    // Construct the prompt
+                    const userQuery = `Project Name: ${title}. Description: ${description}. Technologies: ${skills}.`;
+                    
+                    // Call API
+                    const aiInsight = await callGeminiAPI(userQuery, SYSTEM_PROMPT);
+
+                    // Display response
+                    if(loadingSpinner) loadingSpinner.style.display = 'none';
+                    if(responseText) responseText.textContent = aiInsight;
+                    
+                    // Re-render any new icons in the modal (if needed, though not in this case)
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                });
+            });
+
+            if(modalClose) modalClose.addEventListener('click', hideModal);
+            if(modalBackdrop) modalBackdrop.addEventListener('click', hideModal);
+
+        });
+    </script>
+</body>
+</html>
